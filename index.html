@@ -89,6 +89,37 @@
   .navlinks{display:flex; gap:28px; font-size:14px; font-weight:600;}
   .navlinks a{text-decoration:none; opacity:0.75; transition:opacity .15s;}
   .navlinks a:hover{opacity:1;}
+
+  .hamburger{
+    display:none;
+    flex-direction:column; justify-content:center; gap:5px;
+    width:34px; height:34px;
+    background:none; border:none; cursor:pointer; padding:0;
+    flex:none;
+  }
+  .hamburger span{
+    display:block; width:100%; height:2px; background:var(--ink); border-radius:2px;
+    transition: transform .2s ease, opacity .2s ease;
+  }
+  .hamburger.open span:nth-child(1){transform: translateY(7px) rotate(45deg);}
+  .hamburger.open span:nth-child(2){opacity:0;}
+  .hamburger.open span:nth-child(3){transform: translateY(-7px) rotate(-45deg);}
+
+  .mobile-menu{
+    display:none;
+    flex-direction:column;
+    background:var(--paper);
+    border-bottom:1px solid var(--line);
+    padding:6px 28px 18px;
+  }
+  .mobile-menu a{
+    text-decoration:none; color:var(--ink);
+    font-size:15px; font-weight:600;
+    padding:12px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .mobile-menu a:last-child{border-bottom:none;}
+  .mobile-menu.open{display:flex;}
   .btn{
     display:inline-flex; align-items:center; gap:8px;
     background:var(--berry); color:var(--paper) !important;
@@ -103,7 +134,11 @@
     border:1px solid var(--line);
   }
   .btn-ghost:hover{background:rgba(58,42,30,0.05); transform:none;}
-  @media (max-width:720px){ .navlinks{display:none;} }
+  @media (max-width:720px){
+    .navlinks{display:none;}
+    nav.wrap .btn{display:none;}
+    .hamburger{display:flex;}
+  }
 
   /* ===== HERO ===== */
   .hero{
@@ -250,8 +285,35 @@
       <a href="#contact">Order</a>
     </div>
     <a class="btn" href="https://wa.me/6594764761" target="_blank" rel="noopener">Order on WhatsApp</a>
+    <button class="hamburger" id="hamburgerBtn" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#about">About</a>
+    <a href="#menu">Menu</a>
+    <a href="#reviews">Reviews</a>
+    <a href="#contact">Order</a>
+    <a href="https://wa.me/6594764761" target="_blank" rel="noopener">Order on WhatsApp</a>
+  </div>
 </header>
+
+<script>
+  const hamburgerBtn = document.getElementById('hamburgerBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburgerBtn.addEventListener('click', () => {
+    const isOpen = mobileMenu.classList.toggle('open');
+    hamburgerBtn.classList.toggle('open', isOpen);
+    hamburgerBtn.setAttribute('aria-expanded', isOpen);
+  });
+  mobileMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      hamburgerBtn.classList.remove('open');
+      hamburgerBtn.setAttribute('aria-expanded', 'false');
+    });
+  });
+</script>
 
 <section class="hero">
   <div class="wrap">
